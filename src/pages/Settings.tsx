@@ -31,6 +31,10 @@ import {
   Calendar,
   Users,
   Shield,
+  Check,
+  X,
+  Laptop,
+  Smartphone
 } from 'lucide-react';
 
 const Settings: React.FC = () => {

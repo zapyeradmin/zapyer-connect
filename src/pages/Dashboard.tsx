@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,7 +14,7 @@ import {
   LineChart,
   Line,
 } from 'recharts';
-import { ArrowUpRight, DollarSign, Users, Briefcase, CheckSquare, Clock } from 'lucide-react';
+import { ArrowUpRight, DollarSign, Users, Briefcase, CheckSquare, Clock, Calendar } from 'lucide-react';
 
 // Sample data
 const revenueData = [
