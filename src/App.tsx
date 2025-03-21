@@ -1,9 +1,17 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import AppShell from "./components/layout/AppShell";
+import Dashboard from "./pages/Dashboard";
+import Contacts from "./pages/Contacts";
+import Deals from "./pages/Deals";
+import Calendar from "./pages/Calendar";
+import Tasks from "./pages/Tasks";
+import Settings from "./pages/Settings";
+import ZapierIntegration from "./pages/Zapier";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +23,13 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<AppShell><Dashboard /></AppShell>} />
+          <Route path="/contacts" element={<AppShell><Contacts /></AppShell>} />
+          <Route path="/deals" element={<AppShell><Deals /></AppShell>} />
+          <Route path="/calendar" element={<AppShell><Calendar /></AppShell>} />
+          <Route path="/tasks" element={<AppShell><Tasks /></AppShell>} />
+          <Route path="/settings" element={<AppShell><Settings /></AppShell>} />
+          <Route path="/zapier" element={<AppShell><ZapierIntegration /></AppShell>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
