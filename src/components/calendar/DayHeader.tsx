@@ -10,7 +10,9 @@ interface DayHeaderProps {
 const DayHeader: React.FC<DayHeaderProps> = ({ daysInWeek }) => {
   return (
     <div className="grid grid-cols-8 border-b">
-      <div className="p-4 border-r"></div>
+      <div className="p-4 border-r flex items-center justify-center">
+        <img src="/zapyer-logo.png" alt="Zapyer Logo" className="h-8 w-auto" />
+      </div>
       {daysInWeek.map((day, i) => (
         <div 
           key={i} 

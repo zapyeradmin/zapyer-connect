@@ -39,6 +39,9 @@ const Header: React.FC = () => {
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center space-x-4">
           <SidebarTrigger className="mr-2" />
+          <div className="md:hidden">
+            <img src="/zapyer-logo.png" alt="Zapyer CRM Logo" className="h-6 w-auto" />
+          </div>
           <h1 className="text-xl font-semibold tracking-tight text-foreground">{title}</h1>
         </div>
         

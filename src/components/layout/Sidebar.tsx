@@ -47,7 +47,7 @@ const Sidebar: React.FC = () => {
     <SidebarBase>
       <SidebarHeader className="flex h-16 items-center px-4">
         <div className="flex items-center space-x-2">
-          <Zap size={24} className="text-primary" />
+          <img src="/zapyer-logo.png" alt="Zapyer CRM Logo" className="h-8 w-auto" />
           <span className="text-xl font-bold tracking-tight">Zapyer CRM</span>
         </div>
       </SidebarHeader>
