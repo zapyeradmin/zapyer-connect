@@ -23,8 +23,8 @@ import {
   Zap,
   Info,
   MessageSquare,
-  Clock,
   HelpCircle,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -39,6 +39,7 @@ const mainNavItems = [
 const otherNavItems = [
   { title: 'Configurações', icon: Settings, path: '/settings' },
   { title: 'Zapier', icon: Zap, path: '/zapier' },
+  { title: 'Admin', icon: Shield, path: '/admin' },
 ];
 
 const Sidebar: React.FC = () => {

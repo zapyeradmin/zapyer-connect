@@ -6,6 +6,7 @@ import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Plus, MoreHorizont
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Badge } from '@/components/ui/badge';
 import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, addWeeks, isSameDay, isToday, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import {
   Dialog,
   DialogContent,
@@ -32,66 +33,67 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/hooks/use-toast';
 
-// Sample data
+// Dados de exemplo
 const events = [
   {
     id: 1,
-    title: 'Client Meeting',
+    title: 'Reunião com Cliente',
     date: '2023-11-15T10:00:00',
     endTime: '2023-11-15T11:30:00',
     type: 'meeting',
-    location: 'Conference Room A',
-    description: 'Discussion about new project requirements',
-    attendees: ['Alex Johnson', 'Sarah Williams', 'Michael Brown'],
+    location: 'Sala de Conferência A',
+    description: 'Discussão sobre requisitos do novo projeto',
+    attendees: ['Alex Silva', 'Sarah Costa', 'Miguel Santos'],
   },
   {
     id: 2,
-    title: 'Product Demo',
+    title: 'Demo de Produto',
     date: '2023-11-15T14:00:00',
     endTime: '2023-11-15T15:30:00',
     type: 'demo',
-    location: 'Virtual Meeting',
-    description: 'Demonstration of new software features to the client',
-    attendees: ['Emily Davis', 'Jennifer Taylor'],
+    location: 'Reunião Virtual',
+    description: 'Demonstração dos novos recursos do software para o cliente',
+    attendees: ['Emília Dias', 'Jennifer Taylor'],
   },
   {
     id: 3,
-    title: 'Team Standup',
+    title: 'Reunião de Equipe',
     date: '2023-11-16T09:30:00',
     endTime: '2023-11-16T10:00:00',
     type: 'internal',
-    location: 'Meeting Room B',
-    description: 'Daily team standup meeting',
-    attendees: ['All Team Members'],
+    location: 'Sala de Reuniões B',
+    description: 'Reunião diária da equipe',
+    attendees: ['Todos os Membros da Equipe'],
   },
   {
     id: 4,
-    title: 'Project Planning',
+    title: 'Planejamento de Projeto',
     date: '2023-11-17T13:00:00',
     endTime: '2023-11-17T15:00:00',
     type: 'planning',
-    location: 'Meeting Room C',
-    description: 'Quarterly project planning session',
-    attendees: ['David Martinez', 'Linda Anderson', 'Robert Wilson'],
+    location: 'Sala de Reuniões C',
+    description: 'Sessão trimestral de planejamento de projeto',
+    attendees: ['David Martinez', 'Linda Oliveira', 'Roberto Wilson'],
   },
   {
     id: 5,
-    title: 'Sales Call',
+    title: 'Ligação de Vendas',
     date: '2023-11-18T11:00:00',
     endTime: '2023-11-18T12:00:00',
     type: 'call',
-    location: 'Phone',
-    description: 'Call with potential client about new service offerings',
-    attendees: ['Alex Johnson', 'Sarah Williams'],
+    location: 'Telefone',
+    description: 'Ligação com cliente potencial sobre novos serviços',
+    attendees: ['Alex Silva', 'Sarah Costa'],
   },
 ];
 
-// Adjust dates to be relative to today
+// Ajustar datas para serem relativas à data atual
 const adjustedEvents = events.map(event => {
   const today = new Date();
   const originalDate = parseISO(event.date);
-  const dayDiff = 30; // Make events happen within the next month
+  const dayDiff = 30; // Eventos ocorrem dentro do próximo mês
   
   const newDate = new Date(today);
   newDate.setDate(today.getDate() + Math.floor(Math.random() * dayDiff));
@@ -111,37 +113,37 @@ const adjustedEvents = events.map(event => {
   };
 });
 
-// Add a few more events that happen today
+// Adicionar alguns eventos para hoje
 const todayEvents = [
   {
     id: 6,
-    title: 'Client Call',
+    title: 'Ligação com Cliente',
     date: new Date().setHours(10, 0, 0, 0),
     endTime: new Date().setHours(11, 0, 0, 0),
     type: 'call',
-    location: 'Phone',
-    description: 'Follow-up call with client',
-    attendees: ['Alex Johnson'],
+    location: 'Telefone',
+    description: 'Ligação de acompanhamento com cliente',
+    attendees: ['Alex Silva'],
   },
   {
     id: 7,
-    title: 'Team Lunch',
+    title: 'Almoço em Equipe',
     date: new Date().setHours(12, 30, 0, 0),
     endTime: new Date().setHours(13, 30, 0, 0),
     type: 'internal',
     location: 'Cafeteria',
-    description: 'Team bonding lunch',
-    attendees: ['All Team Members'],
+    description: 'Almoço de integração da equipe',
+    attendees: ['Todos os Membros da Equipe'],
   },
   {
     id: 8,
-    title: 'Status Update',
+    title: 'Atualização de Status',
     date: new Date().setHours(15, 0, 0, 0),
     endTime: new Date().setHours(16, 0, 0, 0),
     type: 'meeting',
-    location: 'Conference Room B',
-    description: 'Weekly status update meeting',
-    attendees: ['Project Stakeholders'],
+    location: 'Sala de Conferência B',
+    description: 'Reunião semanal de atualização de status',
+    attendees: ['Partes Interessadas do Projeto'],
   },
 ].map(event => ({
   ...event,
@@ -151,7 +153,7 @@ const todayEvents = [
 
 const allEvents = [...adjustedEvents, ...todayEvents];
 
-const timeSlots = Array.from({ length: 12 }, (_, i) => i + 8); // 8 AM to 7 PM
+const timeSlots = Array.from({ length: 12 }, (_, i) => i + 8); // 8h às 19h
 
 const eventColors: Record<string, string> = {
   meeting: 'bg-blue-100 text-blue-800',
@@ -161,69 +163,88 @@ const eventColors: Record<string, string> = {
   call: 'bg-red-100 text-red-800',
 };
 
+// Tipos de evento traduzidos
+const eventTypeLabels: Record<string, string> = {
+  meeting: 'Reunião',
+  demo: 'Demonstração',
+  internal: 'Interno',
+  planning: 'Planejamento',
+  call: 'Ligação',
+};
+
 const AddEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+  const { toast } = useToast();
+  
+  const handleSave = () => {
+    toast({
+      title: "Evento criado",
+      description: "O evento foi adicionado ao seu calendário com sucesso.",
+    });
+    onClose();
+  };
+  
   return (
     <DialogContent className="sm:max-w-[550px]">
       <DialogHeader>
-        <DialogTitle>Add New Event</DialogTitle>
+        <DialogTitle>Adicionar Novo Evento</DialogTitle>
         <DialogDescription>
-          Create a new event or meeting in your calendar.
+          Crie um novo evento ou reunião no seu calendário.
         </DialogDescription>
       </DialogHeader>
       <div className="grid gap-4 py-4">
         <div className="space-y-2">
-          <Label htmlFor="title">Event Title</Label>
-          <Input id="title" placeholder="Enter event title" />
+          <Label htmlFor="title">Título do Evento</Label>
+          <Input id="title" placeholder="Digite o título do evento" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="date">Date</Label>
+            <Label htmlFor="date">Data</Label>
             <div className="relative">
               <Input id="date" type="date" />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="type">Event Type</Label>
+            <Label htmlFor="type">Tipo de Evento</Label>
             <Select>
               <SelectTrigger id="type">
-                <SelectValue placeholder="Select type" />
+                <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="meeting">Meeting</SelectItem>
-                <SelectItem value="call">Call</SelectItem>
-                <SelectItem value="demo">Demo</SelectItem>
-                <SelectItem value="internal">Internal</SelectItem>
-                <SelectItem value="planning">Planning</SelectItem>
+                <SelectItem value="meeting">Reunião</SelectItem>
+                <SelectItem value="call">Ligação</SelectItem>
+                <SelectItem value="demo">Demonstração</SelectItem>
+                <SelectItem value="internal">Interno</SelectItem>
+                <SelectItem value="planning">Planejamento</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="startTime">Start Time</Label>
+            <Label htmlFor="startTime">Hora de Início</Label>
             <Input id="startTime" type="time" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="endTime">End Time</Label>
+            <Label htmlFor="endTime">Hora de Término</Label>
             <Input id="endTime" type="time" />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="location">Location</Label>
-          <Input id="location" placeholder="Enter location" />
+          <Label htmlFor="location">Local</Label>
+          <Input id="location" placeholder="Digite o local" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="description">Description</Label>
-          <Input id="description" placeholder="Add event description" className="h-20" />
+          <Label htmlFor="description">Descrição</Label>
+          <Input id="description" placeholder="Adicione a descrição do evento" className="h-20" />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="attendees">Attendees</Label>
-          <Input id="attendees" placeholder="Add attendees (comma separated)" />
+          <Label htmlFor="attendees">Participantes</Label>
+          <Input id="attendees" placeholder="Adicione participantes (separados por vírgula)" />
         </div>
       </div>
       <DialogFooter>
-        <Button variant="outline" onClick={onClose}>Cancel</Button>
-        <Button onClick={onClose}>Save Event</Button>
+        <Button variant="outline" onClick={onClose}>Cancelar</Button>
+        <Button onClick={handleSave}>Salvar Evento</Button>
       </DialogFooter>
     </DialogContent>
   );
@@ -245,7 +266,7 @@ const EventDetailDialog: React.FC<{ event: any; isOpen: boolean; onClose: () => 
         <DialogTitle>{event.title}</DialogTitle>
         <DialogDescription>
           <Badge variant="outline" className={eventColors[event.type]}>
-            {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+            {eventTypeLabels[event.type] || event.type.charAt(0).toUpperCase() + event.type.slice(1)}
           </Badge>
         </DialogDescription>
       </DialogHeader>
@@ -253,7 +274,7 @@ const EventDetailDialog: React.FC<{ event: any; isOpen: boolean; onClose: () => 
         <div className="flex items-center space-x-2">
           <CalendarIcon className="h-4 w-4 text-muted-foreground" />
           <span>
-            {format(startDate, 'MMMM d, yyyy')} · {format(startDate, 'h:mm a')} - {format(endDate, 'h:mm a')}
+            {format(startDate, "d 'de' MMMM, yyyy", { locale: ptBR })} · {format(startDate, "HH'h'mm", { locale: ptBR })} - {format(endDate, "HH'h'mm", { locale: ptBR })}
           </span>
         </div>
         
@@ -263,12 +284,12 @@ const EventDetailDialog: React.FC<{ event: any; isOpen: boolean; onClose: () => 
         </div>
         
         <div className="pt-2">
-          <h4 className="text-sm font-medium mb-2">Description</h4>
+          <h4 className="text-sm font-medium mb-2">Descrição</h4>
           <p className="text-sm text-muted-foreground">{event.description}</p>
         </div>
         
         <div className="pt-2">
-          <h4 className="text-sm font-medium mb-2">Attendees</h4>
+          <h4 className="text-sm font-medium mb-2">Participantes</h4>
           <div className="flex flex-wrap gap-2">
             {event.attendees.map((attendee: string, index: number) => (
               <div key={index} className="flex items-center space-x-2 rounded-full bg-muted px-3 py-1 text-sm">
@@ -282,8 +303,8 @@ const EventDetailDialog: React.FC<{ event: any; isOpen: boolean; onClose: () => 
         </div>
       </div>
       <DialogFooter>
-        <Button variant="outline" onClick={onClose}>Close</Button>
-        <Button>Edit Event</Button>
+        <Button variant="outline" onClick={onClose}>Fechar</Button>
+        <Button>Editar Evento</Button>
       </DialogFooter>
     </DialogContent>
   );
@@ -295,9 +316,10 @@ const CalendarView: React.FC = () => {
   const [isAddEventOpen, setIsAddEventOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [isEventDetailOpen, setIsEventDetailOpen] = useState(false);
+  const { toast } = useToast();
   
-  // Week view helper functions
-  const currentWeekStart = startOfWeek(date, { weekStartsOn: 1 }); // Monday as week start
+  // Funções auxiliares da visualização semanal
+  const currentWeekStart = startOfWeek(date, { weekStartsOn: 1 }); // Segunda-feira como início da semana
   const currentWeekEnd = endOfWeek(date, { weekStartsOn: 1 });
   const daysInWeek = eachDayOfInterval({ start: currentWeekStart, end: currentWeekEnd });
   
@@ -318,7 +340,7 @@ const CalendarView: React.FC = () => {
     setIsEventDetailOpen(true);
   };
   
-  // Find events for each day
+  // Encontrar eventos para cada dia
   const getEventsForDay = (day: Date) => {
     return allEvents.filter(event => {
       const eventDate = new Date(event.date);
@@ -326,7 +348,7 @@ const CalendarView: React.FC = () => {
     });
   };
   
-  // Sort events by time for a given day
+  // Ordenar eventos por hora para um determinado dia
   const sortEventsByTime = (events: any[]) => {
     return [...events].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   };
@@ -334,9 +356,9 @@ const CalendarView: React.FC = () => {
   return (
     <div className="space-y-6 pb-10">
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-bold tracking-tight">Calendar</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Calendário</h2>
         <p className="text-muted-foreground">
-          Schedule meetings and manage your events.
+          Agende reuniões e gerencie seus eventos.
         </p>
       </div>
       
@@ -346,13 +368,13 @@ const CalendarView: React.FC = () => {
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="sm" onClick={navigateToToday}>
-            Today
+            Hoje
           </Button>
           <Button variant="outline" size="sm" onClick={navigateToNextWeek}>
             <ChevronRight className="h-4 w-4" />
           </Button>
           <div className="text-lg font-medium">
-            {format(currentWeekStart, 'MMM d')} - {format(currentWeekEnd, 'MMM d, yyyy')}
+            {format(currentWeekStart, "d 'de' MMM", { locale: ptBR })} - {format(currentWeekEnd, "d 'de' MMM, yyyy", { locale: ptBR })}
           </div>
         </div>
         
@@ -363,9 +385,9 @@ const CalendarView: React.FC = () => {
             className="w-full sm:w-auto"
           >
             <TabsList>
-              <TabsTrigger value="day">Day</TabsTrigger>
-              <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="month">Month</TabsTrigger>
+              <TabsTrigger value="day">Dia</TabsTrigger>
+              <TabsTrigger value="week">Semana</TabsTrigger>
+              <TabsTrigger value="month">Mês</TabsTrigger>
             </TabsList>
           </Tabs>
           
@@ -373,7 +395,7 @@ const CalendarView: React.FC = () => {
             <DialogTrigger asChild>
               <Button size="sm" className="gap-1 whitespace-nowrap">
                 <Plus className="h-4 w-4" />
-                <span>Add Event</span>
+                <span>Adicionar Evento</span>
               </Button>
             </DialogTrigger>
             <AddEventDialog 
@@ -389,7 +411,7 @@ const CalendarView: React.FC = () => {
           <CardContent className="p-0">
             <TabsContent value="day" className="m-0">
               <div className="text-center text-muted-foreground py-8">
-                Day view is under development. Please use Week view for now.
+                Visualização diária em desenvolvimento. Por favor, use a visualização semanal por enquanto.
               </div>
             </TabsContent>
             
@@ -401,7 +423,7 @@ const CalendarView: React.FC = () => {
                     key={i} 
                     className={`p-4 text-center font-medium ${isToday(day) ? 'bg-primary/5' : ''}`}
                   >
-                    <div>{format(day, 'EEE')}</div>
+                    <div>{format(day, 'EEE', { locale: ptBR })}</div>
                     <div className={`text-xl ${isToday(day) ? 'bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center mx-auto' : ''}`}>
                       {format(day, 'd')}
                     </div>
@@ -413,7 +435,7 @@ const CalendarView: React.FC = () => {
                 <div className="border-r">
                   {timeSlots.map((hour) => (
                     <div key={hour} className="h-20 border-b px-2 py-1 text-xs text-muted-foreground">
-                      {hour === 12 ? '12 PM' : hour < 12 ? `${hour} AM` : `${hour - 12} PM`}
+                      {hour === 12 ? '12h' : hour < 12 ? `${hour}h` : `${hour - 12}h`}
                     </div>
                   ))}
                 </div>
@@ -458,7 +480,7 @@ const CalendarView: React.FC = () => {
                             onClick={() => handleEventClick(event)}
                           >
                             <div className="font-medium truncate">{event.title}</div>
-                            <div className="truncate">{format(eventStart, 'h:mm a')} - {format(eventEnd, 'h:mm a')}</div>
+                            <div className="truncate">{format(eventStart, "HH'h'mm", { locale: ptBR })} - {format(eventEnd, "HH'h'mm", { locale: ptBR })}</div>
                           </div>
                         );
                       })}
@@ -470,7 +492,7 @@ const CalendarView: React.FC = () => {
             
             <TabsContent value="month" className="m-0">
               <div className="text-center text-muted-foreground py-8">
-                Month view is under development. Please use Week view for now.
+                Visualização mensal em desenvolvimento. Por favor, use a visualização semanal por enquanto.
               </div>
             </TabsContent>
           </CardContent>
@@ -480,7 +502,7 @@ const CalendarView: React.FC = () => {
       <div className="grid md:grid-cols-3 gap-6">
         <Card className="md:col-span-2">
           <CardHeader>
-            <CardTitle>Upcoming Events</CardTitle>
+            <CardTitle>Próximos Eventos</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -491,7 +513,7 @@ const CalendarView: React.FC = () => {
                 return (
                   <div key={event.id} className="flex items-start gap-4 hover:bg-muted/50 p-2 rounded-md transition-colors cursor-pointer" onClick={() => handleEventClick(event)}>
                     <div className="flex flex-col items-center justify-center rounded-md border p-2 text-center">
-                      <span className="text-sm font-medium">{format(eventDate, 'MMM')}</span>
+                      <span className="text-sm font-medium">{format(eventDate, 'MMM', { locale: ptBR })}</span>
                       <span className="text-2xl font-bold">{format(eventDate, 'd')}</span>
                     </div>
                     
@@ -500,7 +522,7 @@ const CalendarView: React.FC = () => {
                         <div>
                           <h4 className="font-medium">{event.title}</h4>
                           <Badge variant="outline" className={`${eventColors[event.type]} mt-1`}>
-                            {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                            {eventTypeLabels[event.type] || event.type.charAt(0).toUpperCase() + event.type.slice(1)}
                           </Badge>
                         </div>
                         <DropdownMenu>
@@ -510,8 +532,8 @@ const CalendarView: React.FC = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Edit Event</DropdownMenuItem>
-                            <DropdownMenuItem>Delete Event</DropdownMenuItem>
+                            <DropdownMenuItem>Editar Evento</DropdownMenuItem>
+                            <DropdownMenuItem>Excluir Evento</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -519,7 +541,7 @@ const CalendarView: React.FC = () => {
                       <div className="mt-2 text-sm text-muted-foreground">
                         <div className="flex items-center space-x-2">
                           <Clock className="h-3.5 w-3.5" />
-                          <span>{format(eventDate, 'h:mm a')} - {format(eventEnd, 'h:mm a')}</span>
+                          <span>{format(eventDate, "HH'h'mm", { locale: ptBR })} - {format(eventEnd, "HH'h'mm", { locale: ptBR })}</span>
                         </div>
                         <div className="flex items-center space-x-2 mt-1">
                           <MapPin className="h-3.5 w-3.5" />
@@ -536,14 +558,15 @@ const CalendarView: React.FC = () => {
         
         <Card>
           <CardHeader>
-            <CardTitle>Mini Calendar</CardTitle>
+            <CardTitle>Mini Calendário</CardTitle>
           </CardHeader>
           <CardContent className="pt-0 flex justify-center">
             <CalendarComponent
               mode="single"
               selected={date}
               onSelect={(newDate) => newDate && setDate(newDate)}
-              className="rounded-md border shadow-sm"
+              className="rounded-md border shadow-sm pointer-events-auto"
+              locale={ptBR}
               disabled={{ before: new Date(2020, 0, 1) }}
             />
           </CardContent>
