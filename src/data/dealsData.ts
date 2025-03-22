@@ -1,16 +1,16 @@
 
 export const pipelineStages = [
   { id: 'lead', name: 'Lead', color: 'bg-blue-500' },
-  { id: 'qualified', name: 'Qualified', color: 'bg-purple-500' },
-  { id: 'proposal', name: 'Proposal', color: 'bg-yellow-500' },
-  { id: 'negotiation', name: 'Negotiation', color: 'bg-orange-500' },
-  { id: 'closed', name: 'Closed Won', color: 'bg-green-500' },
+  { id: 'qualified', name: 'Qualificado', color: 'bg-purple-500' },
+  { id: 'proposal', name: 'Proposta', color: 'bg-yellow-500' },
+  { id: 'negotiation', name: 'Negociação', color: 'bg-orange-500' },
+  { id: 'closed', name: 'Fechado Ganho', color: 'bg-green-500' },
 ];
 
 export const deals = [
   {
     id: 1,
-    title: 'Enterprise Software Package',
+    title: 'Pacote de Software Empresarial',
     value: 24500,
     company: 'TechNova Inc.',
     stage: 'proposal',
@@ -21,7 +21,7 @@ export const deals = [
   },
   {
     id: 2,
-    title: 'Annual Support Contract',
+    title: 'Contrato de Suporte Anual',
     value: 12000,
     company: 'Global Solutions',
     stage: 'negotiation',
@@ -32,7 +32,7 @@ export const deals = [
   },
   {
     id: 3,
-    title: 'New Server Infrastructure',
+    title: 'Nova Infraestrutura de Servidor',
     value: 65000,
     company: 'Innovative Corp',
     stage: 'qualified',
@@ -43,7 +43,7 @@ export const deals = [
   },
   {
     id: 4,
-    title: 'Software Subscription Renewal',
+    title: 'Renovação de Assinatura de Software',
     value: 8500,
     company: 'Elite Enterprises',
     stage: 'closed',
@@ -54,7 +54,7 @@ export const deals = [
   },
   {
     id: 5,
-    title: 'Security Solution Upgrade',
+    title: 'Atualização de Solução de Segurança',
     value: 32000,
     company: 'Prime Partners',
     stage: 'lead',
@@ -65,7 +65,7 @@ export const deals = [
   },
   {
     id: 6,
-    title: 'Cloud Migration Project',
+    title: 'Projeto de Migração para Nuvem',
     value: 78000,
     company: 'Vision Ventures',
     stage: 'proposal',

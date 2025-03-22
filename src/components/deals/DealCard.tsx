@@ -11,6 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface Deal {
   id: number;
@@ -37,11 +40,20 @@ interface DealCardProps {
 
 const DealCard: React.FC<DealCardProps> = ({ deal, pipelineStages }) => {
   const formatValue = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
     }).format(value);
+  };
+
+  const formatDate = (dateString: string) => {
+    return formatInTimeZone(
+      new Date(dateString), 
+      'America/Sao_Paulo', 
+      'dd/MM/yyyy', 
+      { locale: ptBR }
+    );
   };
 
   const stage = pipelineStages.find(s => s.id === deal.stage);
@@ -60,9 +72,9 @@ const DealCard: React.FC<DealCardProps> = ({ deal, pipelineStages }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit Deal</DropdownMenuItem>
-            <DropdownMenuItem>View Details</DropdownMenuItem>
-            <DropdownMenuItem>Change Stage</DropdownMenuItem>
+            <DropdownMenuItem>Editar Negócio</DropdownMenuItem>
+            <DropdownMenuItem>Ver Detalhes</DropdownMenuItem>
+            <DropdownMenuItem>Mudar Estágio</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
@@ -85,13 +97,13 @@ const DealCard: React.FC<DealCardProps> = ({ deal, pipelineStages }) => {
           </div>
           <div className="flex items-center">
             <Calendar className="h-3.5 w-3.5 mr-1" />
-            <span>{new Date(deal.closeDate).toLocaleDateString()}</span>
+            <span>{formatDate(deal.closeDate)}</span>
           </div>
         </div>
         
         <div className="mt-3">
           <div className="flex justify-between items-center text-xs mb-1">
-            <span>Probability</span>
+            <span>Probabilidade</span>
             <span>{deal.probability}%</span>
           </div>
           <Progress value={deal.probability} className="h-1.5" />

@@ -33,9 +33,9 @@ const StageColumn: React.FC<StageColumnProps> = ({ stage, stageDeals, pipelineSt
   const totalValue = stageDeals.reduce((sum, deal) => sum + deal.value, 0);
   
   const formatValue = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'BRL',
       minimumFractionDigits: 0,
     }).format(value);
   };
@@ -62,7 +62,7 @@ const StageColumn: React.FC<StageColumnProps> = ({ stage, stageDeals, pipelineSt
         
         <Button variant="ghost" className="w-full border border-dashed border-muted-foreground/20 py-6 text-muted-foreground hover:text-foreground">
           <Plus className="h-4 w-4 mr-2" />
-          Add Deal
+          Adicionar Negócio
         </Button>
       </div>
     </div>

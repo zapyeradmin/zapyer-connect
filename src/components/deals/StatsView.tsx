@@ -53,30 +53,30 @@ const StatsView: React.FC<StatsViewProps> = ({
     <>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard 
-          title="Total Pipeline Value" 
+          title="Valor Total do Pipeline" 
           value={formatValue(totalValue)}
-          subtitle="Across all deals" 
+          subtitle="Em todos os negócios" 
           icon={<DollarSign className="h-5 w-5 text-green-500" />} 
           color="bg-green-100"
         />
         <StatsCard 
-          title="Open Deals" 
+          title="Negócios Abertos" 
           value={totalDeals.toString()}
-          subtitle="In your pipeline" 
+          subtitle="No seu pipeline" 
           icon={<Tag className="h-5 w-5 text-blue-500" />} 
           color="bg-blue-100"
         />
         <StatsCard 
-          title="Average Deal Size" 
+          title="Tamanho Médio do Negócio" 
           value={formatValue(avgDealSize)}
-          subtitle="Per transaction" 
+          subtitle="Por transação" 
           icon={<DollarSign className="h-5 w-5 text-purple-500" />} 
           color="bg-purple-100"
         />
         <StatsCard 
-          title="Won Deals" 
+          title="Negócios Ganhos" 
           value={wonDeals.toString()}
-          subtitle="Successfully closed" 
+          subtitle="Fechados com sucesso" 
           icon={<Tag className="h-5 w-5 text-green-500" />} 
           color="bg-green-100"
         />
@@ -85,11 +85,11 @@ const StatsView: React.FC<StatsViewProps> = ({
       <div className="mt-6">
         <Card>
           <CardHeader>
-            <CardTitle>Deal Table View</CardTitle>
+            <CardTitle>Visualização de Tabela de Negócios</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center text-muted-foreground py-8">
-              This view is under development. Check back soon for the complete analytics view.
+              Esta visualização está em desenvolvimento. Volte em breve para a visualização completa de análises.
             </div>
           </CardContent>
         </Card>

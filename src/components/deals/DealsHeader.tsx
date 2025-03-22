@@ -14,8 +14,8 @@ const DealsHeader: React.FC<DealsHeaderProps> = ({ searchQuery, setSearchQuery }
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
       <TabsList>
-        <TabsTrigger value="pipeline">Pipeline View</TabsTrigger>
-        <TabsTrigger value="stats">Statistics</TabsTrigger>
+        <TabsTrigger value="pipeline">Visualização Pipeline</TabsTrigger>
+        <TabsTrigger value="stats">Estatísticas</TabsTrigger>
       </TabsList>
       
       <div className="flex w-full sm:w-auto items-center space-x-2">
@@ -23,7 +23,7 @@ const DealsHeader: React.FC<DealsHeaderProps> = ({ searchQuery, setSearchQuery }
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search deals..."
+            placeholder="Buscar negócios..."
             className="pl-8 w-full sm:w-[250px]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -34,7 +34,7 @@ const DealsHeader: React.FC<DealsHeaderProps> = ({ searchQuery, setSearchQuery }
         </Button>
         <Button className="gap-1 whitespace-nowrap">
           <Plus className="h-4 w-4" />
-          <span>Add Deal</span>
+          <span>Adicionar Negócio</span>
         </Button>
       </div>
     </div>
