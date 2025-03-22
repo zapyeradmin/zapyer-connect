@@ -33,7 +33,7 @@ const StatCard: React.FC<StatCardProps> = ({
         <div className={`mr-2 text-sm ${positive ? 'text-green-500' : 'text-red-500'}`}>
           <ArrowUpRight className="inline h-4 w-4" /> {change}
         </div>
-        <div className="text-xs text-muted-foreground">compared to last month</div>
+        <div className="text-xs text-muted-foreground">comparado ao mês anterior</div>
       </div>
     </CardContent>
   </Card>

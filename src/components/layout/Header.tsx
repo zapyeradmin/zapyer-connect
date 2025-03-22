@@ -21,13 +21,13 @@ import { Button } from '@/components/ui/button';
 import { useLocation } from 'react-router-dom';
 
 const pageHeaders: Record<string, string> = {
-  "/": "Dashboard",
-  "/contacts": "Contacts",
-  "/deals": "Deals",
-  "/calendar": "Calendar",
-  "/tasks": "Tasks",
-  "/settings": "Settings",
-  "/zapier": "Zapier Integration"
+  "/": "Painel",
+  "/contacts": "Contatos",
+  "/deals": "Negócios",
+  "/calendar": "Calendário",
+  "/tasks": "Tarefas",
+  "/settings": "Configurações",
+  "/zapier": "Integração Zapier"
 };
 
 const Header: React.FC = () => {
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
             <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
             <input
               type="search"
-              placeholder="Search..."
+              placeholder="Pesquisar..."
               className="rounded-full bg-muted px-9 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             />
           </div>
@@ -72,19 +72,19 @@ const Header: React.FC = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 animate-scale-in">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <span>Configurações</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell className="mr-2 h-4 w-4" />
-                <span>Notifications</span>
+                <span>Notificações</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <span>Log out</span>
+                <span>Sair</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

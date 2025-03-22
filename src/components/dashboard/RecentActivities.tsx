@@ -3,21 +3,21 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, DollarSign, CheckSquare, Calendar } from 'lucide-react';
 
-// Sample data
+// Dados de exemplo
 const recentActivities = [
-  { id: 1, title: 'New contact added', time: '2 hours ago', type: 'contact' },
-  { id: 2, title: 'Deal status changed to Won', time: '4 hours ago', type: 'deal' },
-  { id: 3, title: 'Task completed', time: '6 hours ago', type: 'task' },
-  { id: 4, title: 'Meeting scheduled', time: '1 day ago', type: 'calendar' },
-  { id: 5, title: 'New deal created', time: '1 day ago', type: 'deal' },
+  { id: 1, title: 'Novo contato adicionado', time: 'há 2 horas', type: 'contact' },
+  { id: 2, title: 'Status do negócio alterado para Ganho', time: 'há 4 horas', type: 'deal' },
+  { id: 3, title: 'Tarefa completada', time: 'há 6 horas', type: 'task' },
+  { id: 4, title: 'Reunião agendada', time: 'há 1 dia', type: 'calendar' },
+  { id: 5, title: 'Novo negócio criado', time: 'há 1 dia', type: 'deal' },
 ];
 
 const RecentActivities: React.FC = () => {
   return (
     <Card className="transition-all duration-300 hover:shadow-md">
       <CardHeader>
-        <CardTitle>Recent Activities</CardTitle>
-        <CardDescription>Latest updates from your CRM</CardDescription>
+        <CardTitle>Atividades Recentes</CardTitle>
+        <CardDescription>Últimas atualizações do seu CRM</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-72 overflow-auto">

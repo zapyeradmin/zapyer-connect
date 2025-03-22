@@ -29,15 +29,15 @@ import {
 import { cn } from '@/lib/utils';
 
 const mainNavItems = [
-  { title: 'Dashboard', icon: BarChart3, path: '/' },
-  { title: 'Contacts', icon: Users, path: '/contacts' },
-  { title: 'Deals', icon: DollarSign, path: '/deals' },
-  { title: 'Calendar', icon: Calendar, path: '/calendar' },
-  { title: 'Tasks', icon: CheckSquare, path: '/tasks' },
+  { title: 'Painel', icon: BarChart3, path: '/' },
+  { title: 'Contatos', icon: Users, path: '/contacts' },
+  { title: 'Negócios', icon: DollarSign, path: '/deals' },
+  { title: 'Calendário', icon: Calendar, path: '/calendar' },
+  { title: 'Tarefas', icon: CheckSquare, path: '/tasks' },
 ];
 
 const otherNavItems = [
-  { title: 'Settings', icon: Settings, path: '/settings' },
+  { title: 'Configurações', icon: Settings, path: '/settings' },
   { title: 'Zapier', icon: Zap, path: '/zapier' },
 ];
 
@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
       
       <SidebarContent className="px-4 py-2">
         <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
+          <SidebarGroupLabel>Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainNavItems.map((item) => (
@@ -81,7 +81,7 @@ const Sidebar: React.FC = () => {
         </SidebarGroup>
         
         <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarGroupLabel>Configurações</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {otherNavItems.map((item) => (
@@ -113,7 +113,7 @@ const Sidebar: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Info className="h-4 w-4" />
-            <span>Help & Resources</span>
+            <span>Ajuda & Recursos</span>
           </div>
           <div className="flex gap-2">
             <HelpCircle className="h-4 w-4 text-muted-foreground" />
